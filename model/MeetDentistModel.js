@@ -4,7 +4,7 @@ import db from "../db.js";
 export const CreateMeetTopModule = async (heading, para) => {
     try {
         await db.query(`
-            CREATE TABLE IF NOT EXISTS tbl_topMeet (
+            CREATE TABLE IF NOT EXISTS tbl_topmeet (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 heading VARCHAR(255) NOT NULL,
                 para TEXT NOT NULL
@@ -13,7 +13,7 @@ export const CreateMeetTopModule = async (heading, para) => {
 
         // Insert all 5 values including image
         const [result] = await db.query(
-            "INSERT INTO tbl_topMeet (heading, para) VALUES (?, ?)",
+            "INSERT INTO tbl_topmeet (heading, para) VALUES (?, ?)",
             [heading, para]
         );
         return result.insertId;
@@ -26,7 +26,7 @@ export const CreateMeetTopModule = async (heading, para) => {
 
 export const GetMeetTopModule = async () => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_topMeet");
+        const [rows] = await db.query("SELECT * FROM tbl_topmeet");
         return rows;
     } catch (error) {
         console.error("Error fetching banner:", error);
@@ -37,7 +37,7 @@ export const GetMeetTopModule = async () => {
 
 export const GetMeetTopIDModule = async (id) => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_topMeet WHERE id = ?", [id]);
+        const [rows] = await db.query("SELECT * FROM tbl_topmeet WHERE id = ?", [id]);
         return rows.length ? rows[0] : null; 
     } catch (error) {
         console.error("Error fetching banner:", error);
@@ -49,7 +49,7 @@ export const GetMeetTopIDModule = async (id) => {
 export const UpdateMeetTopModule = async (id, heading, para) => {
     try {
         const [result] = await db.query(
-            "UPDATE tbl_topMeet SET heading = ?, para = ?  WHERE id = ?",
+            "UPDATE tbl_topmeet SET heading = ?, para = ?  WHERE id = ?",
             [heading, para, id]
         );
         return result.affectedRows;
@@ -62,7 +62,7 @@ export const UpdateMeetTopModule = async (id, heading, para) => {
 
 export const DeleteMeetTopModule = async (id) => {
     try {
-        const [result] = await db.query("DELETE FROM tbl_topMeet WHERE id = ?", [id]);
+        const [result] = await db.query("DELETE FROM tbl_topmeet WHERE id = ?", [id]);
         return result.affectedRows;
     } catch (error) {
         console.error("Error deleting banner:", error);
@@ -75,7 +75,7 @@ export const DeleteMeetTopModule = async (id) => {
 export const CreateMeetModule = async ( title, subtitle, description, meetimage) => {
     try {
         await db.query(`
-            CREATE TABLE IF NOT EXISTS tbl_Meet (
+            CREATE TABLE IF NOT EXISTS tbl_meet (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title  VARCHAR(255) NOT NULL,
                 subtitle VARCHAR(255) NOT NULL,
@@ -87,7 +87,7 @@ export const CreateMeetModule = async ( title, subtitle, description, meetimage)
 
         // Insert all 5 values including image
         const [result] = await db.query(
-            "INSERT INTO tbl_Meet ( title, subtitle, description, meetimage) VALUES (?, ?, ?, ?)",
+            "INSERT INTO tbl_meet ( title, subtitle, description, meetimage) VALUES (?, ?, ?, ?)",
             [ title, subtitle, description, meetimage]
         );
         return result.insertId;
@@ -100,7 +100,7 @@ export const CreateMeetModule = async ( title, subtitle, description, meetimage)
 
 export const GetMeetModule = async () => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_Meet");
+        const [rows] = await db.query("SELECT * FROM tbl_meet");
 
         // Convert image blob to base64
         const updatedRows = rows.map(Meet => {
@@ -122,7 +122,7 @@ export const GetMeetModule = async () => {
 
 export const GetMeetIDModule = async (id) => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_Meet WHERE id = ?", [id]);
+        const [rows] = await db.query("SELECT * FROM tbl_meet WHERE id = ?", [id]);
         if (!rows.length) return null;
 
         const Meet = rows[0];
@@ -144,7 +144,7 @@ export const GetMeetIDModule = async (id) => {
 
 export const UpdateMeetModule = async (id, title, subtitle, description, imageBuffer) => {
     try {
-      let query = "UPDATE tbl_Meet SET title = ?, subtitle = ?, description = ?";
+      let query = "UPDATE tbl_meet SET title = ?, subtitle = ?, description = ?";
       const params = [title, subtitle, description];
   
       if (imageBuffer) {
@@ -167,7 +167,7 @@ export const UpdateMeetModule = async (id, title, subtitle, description, imageBu
 
 export const DeleteMeetModule = async (id) => {
     try {
-        const [result] = await db.query("DELETE FROM tbl_Meet WHERE id = ?", [id]);
+        const [result] = await db.query("DELETE FROM tbl_meet WHERE id = ?", [id]);
         return result.affectedRows;
     } catch (error) {
         console.error("Error deleting banner:", error);

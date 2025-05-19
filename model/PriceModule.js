@@ -4,7 +4,7 @@ import db from "../db.js";
 export const CreatePriceTopModule = async (heading, para) => {
     try {
         await db.query(`
-            CREATE TABLE IF NOT EXISTS tbl_topPrice (
+            CREATE TABLE IF NOT EXISTS tbl_topprice (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 heading VARCHAR(255) NOT NULL,
                 para TEXT NOT NULL
@@ -13,7 +13,7 @@ export const CreatePriceTopModule = async (heading, para) => {
 
         // Insert all 5 values including image
         const [result] = await db.query(
-            "INSERT INTO tbl_topPrice (heading, para) VALUES (?, ?)",
+            "INSERT INTO tbl_topprice (heading, para) VALUES (?, ?)",
             [heading, para]
         );
         return result.insertId;
@@ -26,7 +26,7 @@ export const CreatePriceTopModule = async (heading, para) => {
 
 export const GetPriceTopModule = async () => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_topPrice");
+        const [rows] = await db.query("SELECT * FROM tbl_topprice");
         return rows;
     } catch (error) {
         console.error("Error fetching banner:", error);
@@ -37,7 +37,7 @@ export const GetPriceTopModule = async () => {
 
 export const GetPriceTopIDModule = async (id) => {
     try {
-        const [rows] = await db.query("SELECT * FROM tbl_topPrice WHERE id = ?", [id]);
+        const [rows] = await db.query("SELECT * FROM tbl_topprice WHERE id = ?", [id]);
         return rows.length ? rows[0] : null; 
     } catch (error) {
         console.error("Error fetching banner:", error);
@@ -49,7 +49,7 @@ export const GetPriceTopIDModule = async (id) => {
 export const UpdatePriceTopModule = async (id, heading, para) => {
     try {
         const [result] = await db.query(
-            "UPDATE tbl_topPrice SET heading = ?, para = ?  WHERE id = ?",
+            "UPDATE tbl_topprice SET heading = ?, para = ?  WHERE id = ?",
             [heading, para, id]
         );
         return result.affectedRows;
@@ -62,7 +62,7 @@ export const UpdatePriceTopModule = async (id, heading, para) => {
 
 export const DeletePriceTopModule = async (id) => {
     try {
-        const [result] = await db.query("DELETE FROM tbl_topPrice WHERE id = ?", [id]);
+        const [result] = await db.query("DELETE FROM tbl_topprice WHERE id = ?", [id]);
         return result.affectedRows;
     } catch (error) {
         console.error("Error deleting banner:", error);
